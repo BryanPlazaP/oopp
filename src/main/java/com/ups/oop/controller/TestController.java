@@ -23,7 +23,7 @@ public class TestController {
             message = message + ", and my name is: " + name;
         }
         if (lastname != null) {
-            message = message + " , and my last name is:" + lastname;
+            message = message + " , and my last name is: " + lastname;
         }
         if (age != null) {
             message = message + " and my age is: " + age + " years old";
