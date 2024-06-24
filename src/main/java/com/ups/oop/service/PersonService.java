@@ -19,13 +19,37 @@ public class PersonService {
         return personList;
     }
 
-    public Person getPersonById(String id){
+    public Person getPersonById(String id) {
         Person person = new Person();
-        for (Person per :personList){
-            if(id.equalsIgnoreCase(per.getId())){
+        for (Person per : personList) {
+            if (id.equalsIgnoreCase(per.getId())) {
                 return per;
             }
         }
         return person;
+    }
+
+    public Person updatePerson(String id, Person person){
+        Person per = new Person();
+        int index = 0;
+        for(Person pers : personList){
+            if(id.equalsIgnoreCase(pers.getId())){
+               personList.set(index, person);
+               return person;
+            }
+            index++;
+        }
+        return per;
+    }
+
+    public String deletePersonById(String id) {
+        String message = "Person with id" + id;
+        for (Person per : personList) {
+            if (id.equalsIgnoreCase(per.getId())) {
+                personList.remove(per);
+                return message + " Removed successfully";
+            }
+        }
+        return message + " not found";
     }
 }

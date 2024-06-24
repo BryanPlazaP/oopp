@@ -28,4 +28,14 @@ import java.util.List;
         public Person createPerson(@RequestBody Person person) {
         return this.personService.createPerson(person);
     }
+
+    @PutMapping("/update-person")
+    public Person updatePerson(@RequestParam String id, @RequestBody Person person){
+            return this.personService.updatePerson(id, person);
+    }
+
+    @DeleteMapping("/remove-person")
+    public String deletePerson(@RequestParam String id){
+            return this.personService.deletePersonById(id);
+    }
 }
