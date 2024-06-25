@@ -2,6 +2,8 @@ package com.ups.oop.controller;
 
 import com.ups.oop.dto.Person;
 import com.ups.oop.service.PersonService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,16 +18,20 @@ import java.util.List;
         }
 
         @GetMapping("/get-all-people")
-        public List<Person> getAllPeople(){
-            return this.personService.getAllPeople();
+        public ResponseEntity getAllPeople(){
+            List<Person> personList = this.personService.getAllPeople();
+            if(personList.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Person List not found");
+            }
+            return ResponseEntity.status(HttpStatus.OK).body(personList);
         }
 
         @GetMapping("/get-person")
-        public Person getPersonById(@RequestParam String id){
+        public ResponseEntity getPersonById(@RequestParam String id){
             return this.personService.getPersonById(id);
     }
         @PostMapping("/person")
-        public Person createPerson(@RequestBody Person person) {
+        public ResponseEntity createPerson(@RequestBody Person person) {
         return this.personService.createPerson(person);
     }
 
