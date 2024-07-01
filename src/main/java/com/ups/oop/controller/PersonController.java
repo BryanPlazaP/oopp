@@ -19,11 +19,7 @@ import java.util.List;
 
         @GetMapping("/get-all-people")
         public ResponseEntity getAllPeople(){
-            List<Person> personList = this.personService.getAllPeople();
-            if(personList.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Person List not found");
-            }
-            return ResponseEntity.status(HttpStatus.OK).body(personList);
         }
 
         @GetMapping("/get-person")
