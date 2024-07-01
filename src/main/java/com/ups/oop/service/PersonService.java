@@ -26,7 +26,7 @@ public class PersonService {
     }
 
     private boolean findPerson(String id){
-        for(Person person: PersonList) {
+        for(Person person: personList) {
             if (id.equalsIgnoreCase(person.getId())) {
 return true;
             }
@@ -65,6 +65,18 @@ return true;
         return per;
     }
 
+    private int findIndex(String id){
+        int indexFound = -1;
+        int index = 0;
+        for(Person p : personList){
+            if(id.equalsIgnoreCase(p.getId())){
+                return index;
+            }
+            index++;
+        }
+        return -1;
+    }
+    
     public String deletePersonById(String id) {
         String message = "Person with id" + id;
         for (Person per : personList) {
