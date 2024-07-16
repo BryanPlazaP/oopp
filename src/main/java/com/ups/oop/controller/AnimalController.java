@@ -1,6 +1,7 @@
 package com.ups.oop.controller;
 
 import com.ups.oop.dto.AnimalDTO;
+import com.ups.oop.repository.AnimalRepository;
 import com.ups.oop.service.AnimalService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,9 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AnimalController {
     private final AnimalService animalService;
+    private final AnimalRepository animalRepository;
 
-    public AnimalController( AnimalService animalService){
+    public AnimalController(AnimalService animalService, AnimalRepository animalRepository){
         this.animalService =  animalService;
+        this.animalRepository = animalRepository;
     }
 
     @PostMapping("/create-animal")
