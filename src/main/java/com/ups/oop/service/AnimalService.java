@@ -1,6 +1,10 @@
 package com.ups.oop.service;
 
 import com.ups.oop.dto.AnimalDTO;
+import com.ups.oop.dto.Person;
+import com.ups.oop.dto.PersonDTO;
+import com.ups.oop.entity.Animal;
+import com.ups.oop.repository.AnimalRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -11,6 +15,11 @@ import java.util.List;
 @Service
 public class AnimalService {
     private List<AnimalDTO> AnimalList = new ArrayList<>();
+    private final AnimalRepository animalRepository;
+
+    public AnimalService(AnimalRepository animalRepository) {
+        this.animalRepository = animalRepository;
+    }
 
     public ResponseEntity createAnimal(AnimalDTO animal) {
         String animalId = animal.getId();
@@ -36,12 +45,18 @@ public class AnimalService {
 
 
     public ResponseEntity getAllAnimal() {
-        if(AnimalList.isEmpty()){
+        Iterable <Animal> animalIterable = animalRepository.findAll();
+        List<AnimalDTO> animalList = new ArrayList<>();
+
+        for(Animal a: animalIterable){
+            AnimalDTO animal = new AnimalDTO(a.getId().toString(), a.getLenght(), a.getHeight(), a.getWeight(), a.getColor(), a.getBreed(), a.getName());
+        animalList.add(animal);
+        }
+        if(animalList.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Animal List Not found");
         }
-        return ResponseEntity.status(HttpStatus.OK).body(AnimalList);
+        return ResponseEntity.status(HttpStatus.OK).body(animalList);
     }
-
     public ResponseEntity getAnimalById(String id) {
         for(AnimalDTO ani : AnimalList){
             if(id.equalsIgnoreCase(ani.getId())){
