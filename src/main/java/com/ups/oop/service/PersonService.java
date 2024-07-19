@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PersonService {
@@ -47,25 +48,37 @@ return true;
         Iterable <Person> personIterable = personRepository.findAll();
         List<PersonDTO> peopleList = new ArrayList<>();
 
-        for(Person p: personIterable){
-            PersonDTO person = new PersonDTO(p.getPersonId(), p.getName(), p.getLastName(), p.getAge());
-        }
+        for(Person p : personIterable) {
+            PersonDTO person = new PersonDTO(
+                    p.getPersonId(),
+                    p.getName() + "-" + p.getLastName(),
+                    p.getAge());
 
-        if(personList.isEmpty()){
+
+        }if(personList.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Person List Not found");
         }
         return ResponseEntity.status(HttpStatus.OK).body(personList);
     }
 
-    public ResponseEntity getPersonById(String id) {
-        for(PersonDTO per : personList){
-            if(id.equalsIgnoreCase(per.getId())){
-    return ResponseEntity.status(HttpStatus.OK).body(per);
-            }
-        }
-        String errorMessage = "person with id " + id + " not found";
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
+    public ResponseEntity getPersonById(String personid) {
+
+      // Optional<Person> personOptional = personRepository.findById(Long.valueOf(id));
+       Optional<Person> personOptional = personRepository.findByPersonId(personid);
+       if(personOptional.isPresent()){
+           //if record was found
+          Person personFound = personOptional.get();
+          PersonDTO person = new PersonDTO(personFound.getPersonId(),
+           personFound.getName() + "-" + personFound.getLastName(), personFound.getAge());
+           return ResponseEntity.status(HttpStatus.OK).body(person);
+       } else {
+           //if record wasn't found
+           String errorMessage = "person with id " + personid + " not found";
+           return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
+       }
     }
+
+
 
     public PersonDTO updatePerson(String id, PersonDTO person){
         PersonDTO per = new PersonDTO();

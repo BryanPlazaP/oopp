@@ -31,12 +31,17 @@ public BootStrapData(PersonRepository personRepository, AnimalRepository animalR
         p2.setLastName("Pueblo");
         p2.setAge(39);
 
+        Person p3 = new Person();
+        p3.setPersonId("0958177935");
+        p3.setName("Enner");
+        p3.setLastName("Valencia");
+        p3.setAge(34);
+
         personRepository.save(p1);
         personRepository.save(p2);
-
+        personRepository.save(p3);
 
         // Animal
-
 
         Animal a1 = new Animal();
         a1.setName("Maxi");
