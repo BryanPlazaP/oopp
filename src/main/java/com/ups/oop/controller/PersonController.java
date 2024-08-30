@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
         public ResponseEntity getPersonById(@RequestParam String id){
             return this.personService.getPersonById(id);
     }
-        @PostMapping("/person")
+        @PostMapping("/templates/person")
         public ResponseEntity createPerson(@RequestBody PersonDTO person) {
         return this.personService.createPerson(person);
     }

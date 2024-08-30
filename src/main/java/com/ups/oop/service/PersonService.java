@@ -45,21 +45,22 @@ return true;
 
 
     public ResponseEntity getAllPeople() {
-        Iterable <Person> personIterable = personRepository.findAll();
-        List<PersonDTO> peopleList = new ArrayList<>();
-
-        for(Person p : personIterable) {
-            PersonDTO person = new PersonDTO(
-                    p.getPersonId(),
-                    p.getName() + "-" + p.getLastName(),
-                    p.getAge());
-
-
-        }if(personList.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Person List Not found");
+        List<PersonDTO> peopleList = getPeople();if(peopleList.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Person List not found");
         }
-        return ResponseEntity.status(HttpStatus.OK).body(personList);
+        return ResponseEntity.status(HttpStatus.OK).body(peopleList);
+      }
+
+    public List<PersonDTO> getPeople(){
+        Iterable<Person> personIterable = personRepository.findAll();
+        List<PersonDTO> peopleList = new ArrayList<>();
+        for (Person p : personIterable) {
+            PersonDTO person = new PersonDTO(p.getPersonId(), p.getName() + " " + p.getLastName(), p.getAge());
+            peopleList.add(person);
+        }
+        return peopleList;
     }
+
 
     public ResponseEntity getPersonById(String personid) {
 
