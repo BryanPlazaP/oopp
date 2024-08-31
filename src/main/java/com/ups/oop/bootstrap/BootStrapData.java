@@ -2,9 +2,9 @@ package com.ups.oop.bootstrap;
 
 import com.ups.oop.dto.Person;
 import com.ups.oop.entity.Animal;
-import com.ups.oop.repository.AnimalRepository;
-import com.ups.oop.repository.PersonRepository;
-import com.ups.oop.repository.StudentRepository;
+import com.ups.oop.entity.Author;
+import com.ups.oop.entity.Book;
+import com.ups.oop.repository.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -13,14 +13,16 @@ public class BootStrapData implements CommandLineRunner {
 private final PersonRepository personRepository;
 private final AnimalRepository animalRepository;
 private final StudentRepository studentRepository;
+private final AuthorRepository authorRepository;
+private final BookRepository bookRepository;
 
-
-    public BootStrapData(PersonRepository personRepository, AnimalRepository animalRepository, StudentRepository studentRepository) {
+    public BootStrapData(PersonRepository personRepository, AnimalRepository animalRepository, StudentRepository studentRepository, AuthorRepository authorRepository, BookRepository bookRepository) {
         this.personRepository = personRepository;
         this.animalRepository = animalRepository;
         this.studentRepository = studentRepository;
+        this.authorRepository = authorRepository;
+        this.bookRepository = bookRepository;
     }
-
     @Override
     public void run(String... args) throws Exception {
         Person p1 = new Person();
@@ -78,12 +80,58 @@ private final StudentRepository studentRepository;
         animalRepository.save(a2);
         animalRepository.save(a3);
 
+        //Books
+        // 1
+        Author auth1 = new Author();
+        auth1.setName("Juan");
+        auth1.setLastName("Rulfo");
+        authorRepository.save(auth1);
+
+        Book b1 = new Book();
+        b1.setTitle("El llano en Llamas");
+        b1.setEditorial("Anagrama");
+        b1.setAuthor(auth1);
+        bookRepository.save(b1);
+
+        auth1.getBooks().add(b1);
+        authorRepository.save(auth1);
+
+        //2
+        Author auth2 = new Author();
+        auth2.setName(" Antoine ");
+        auth2.setLastName("de Saint-Exupéry");
+        authorRepository.save(auth2);
+
+        Book b2 = new Book();
+        b2.setTitle("El Principito");
+        b2.setEditorial("Reynal & Hitchcock");
+        b2.setAuthor(auth2);
+        bookRepository.save(b2);
+
+        auth2.getBooks().add(b2);
+        authorRepository.save(auth2);
+
+        //3
+        Author auth3 = new Author();
+        auth3.setName("William");
+        auth3.setLastName("Shakespear");
+        authorRepository.save(auth3);
+
+        Book b3 = new Book();
+        b3.setTitle("Hamlet");
+        b3.setEditorial("Simón and Schuster");
+        b3.setAuthor(auth3);
+        bookRepository.save(b3);
+
+        auth3.getBooks().add(b3);
+        authorRepository.save(auth3);
+
+
+
         System.out.println("--------------Started BootstrapData -------------");
         System.out.println("Number of Persons: " + personRepository.count());
         System.out.println("Number of Animals: " + animalRepository.count());
-
+        System.out.println("Number of Books: " + animalRepository.count());
+        System.out.println("Number of Authors: " + animalRepository.count());
     }
-
-    
-
 }
